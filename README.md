@@ -7,13 +7,15 @@ This repository implements (1) *virtualization of weight parameters* of multiple
 
 &nbsp;
 ## Software Install and Setup
-Neural weight virtualization is implemented by using Python, TensorFlow, and NVIDIA CUDA (custom TensorFlow operation). The TensorFlow version should be lower than or equal to 1.13.2; the latest version (1.14) seems to have a problem of executing custom operations. We used Tensorflow 1.13.1 and Python 2.7. A GPU is required to perform the weight virtualization (i.e., weight-page matching and optimization) as well as in-memory execution of GPU RAM.    
+Neural weight virtualization is implemented by using Python, TensorFlow, and NVIDIA CUDA (custom TensorFlow operation). The TensorFlow version should be lower than or equal to 1.13.2; the latest version (1.14) seems to have a problem of executing custom operations. We used Python 2.7, Tensorflow 1.13.1, and CUDA 10.0. A GPU is required to perform the weight virtualization (i.e., weight-page matching and optimization) as well as in-memory execution of GPU RAM.    
 
 **Step 1.** Install [Python (>= 2.7)](https://www.python.org/downloads/).
 
 **Step 2.** Install [Tensorflow (<= 1.13.2)](https://www.tensorflow.org/).
 
-**Step 3.** Clone this NeuralWeightVirtualization repository.
+**Step 3.** Install [NVIDIA CUDA (>= 10.0)](https://developer.nvidia.com/cuda-downloads).
+
+**Step 4.** Clone this NeuralWeightVirtualization repository.
 ```sh
 $ git clone https://github.com/multitaskdnn-mobisys2020/NeuralWeightVirtualization.git
 Cloning into 'NeuralWeightVirtualization'...
@@ -23,4 +25,55 @@ remote: Compressing objects: 100% (178/178), done.
 remote: Total 225 (delta 90), reused 164 (delta 42), pack-reused 0
 Receiving objects: 100% (225/225), 11.81 MiB | 15.90 MiB/s, done.
 Resolving deltas: 100% (90/90), done.
+```
+
+## 0) Download datasets (Preliminary)
+Download the datasets for the five DNNs by executing the downloading script (download_dataset.sh). The script uses [curl](https://curl.haxx.se/download.html) for downloading the datasets.
+```sh
+$ ./download_dataset.sh 
+[1/4] Downloading CIFAR10 dataset...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0   2604      0 --:--:-- --:--:-- --:--:--  2604
+100  234M    0  234M    0     0  63.2M      0 --:--:--  0:00:03 --:--:-- 71.2M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0    937      0 --:--:-- --:--:-- --:--:--   934
+100  781k  100  781k    0     0  1260k      0 --:--:-- --:--:-- --:--:-- 1260k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0   2675      0 --:--:-- --:--:-- --:--:--  2675
+100 1171M    0 1171M    0     0  67.8M      0 --:--:--  0:00:17 --:--:-- 46.5M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0    665      0 --:--:-- --:--:-- --:--:--   664
+100 3906k    0 3906k    0     0  4706k      0 --:--:-- --:--:-- --:--:-- 4706k
+...
+...
+...
+[4/4] Downloading SVHN dataset...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0   2791      0 --:--:-- --:--:-- --:--:--  2791
+100  305M    0  305M    0     0  79.1M      0 --:--:--  0:00:03 --:--:-- 90.4M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0    885      0 --:--:-- --:--:-- --:--:--   885
+100 1017k  100 1017k    0     0  1473k      0 --:--:-- --:--:-- --:--:-- 1473k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0   2639      0 --:--:-- --:--:-- --:--:--  2621
+100  772M    0  772M    0     0  84.7M      0 --:--:--  0:00:09 --:--:-- 93.4M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0    958      0 --:--:-- --:--:-- --:--:--   955
+100 2575k    0 2575k    0     0  3974k      0 --:--:-- --:--:-- --:--:-- 3974k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0    174      0 --:--:--  0:00:02 --:--:--   174
+100 85.8M    0 85.8M    0     0  26.1M      0 --:--:--  0:00:03 --:--:-- 96.3M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   388    0   388    0     0   2380      0 --:--:-- --:--:-- --:--:--  2380
+100  286k  100  286k    0     0   788k      0 --:--:-- --:--:-- --:--:--  788k
 ```
