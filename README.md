@@ -28,7 +28,7 @@ Resolving deltas: 100% (90/90), done.
 ```
 
 ## 1) Download Datasets (Preliminary Step 1)
-Download the datasets for the five DNNs by executing the downloading script (download_dataset.sh). The script uses [curl](https://curl.haxx.se/download.html) for downloading the datasets. 
+Download the datasets for the five DNNs by executing the downloading script (*download_dataset.sh*). The script uses [curl](https://curl.haxx.se/download.html) for downloading the datasets. 
 ```sh
 $ ./download_dataset.sh 
 [1/4] Downloading CIFAR10 dataset...
