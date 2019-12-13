@@ -88,7 +88,7 @@ cifar10  gsc  gtsrb  mnist  svhn
 ## 3) Weight virtualization Step 1: Weight-Page Matching
 The first step of weight virtualization is the weight-page matching, which is performed by the following Python script. It first computes Fisher information of the DNN and then perform weight-page matching as described in the paper. Each DNN performs the weight-page matching one by one.
 
-**MNIST**
+Perform weight-page matching for the MNIST DNN.
 ```sh
 init new weight pages
 add_vnn
@@ -117,4 +117,42 @@ mnist/mnist_network_fisher.npy
 toal_cost: 0.0
 458 pages allocated for 45706 weights
 total_network_cost: 0
+```
+
+Perform weight-page matching for the GSC DNN.
+```sh
+add_vnn
+gsc/gsc_network_weight.npy
+compute_fisher
+do_compute_fisher
+sample num:    0, data_idx: 19860
+sample num:    1, data_idx: 51449
+sample num:    2, data_idx: 30773
+...
+...
+...
+sample num:   97, data_idx: 41594
+sample num:   98, data_idx: 30133
+sample num:   99, data_idx: 44799
+gsc/gsc_network_fisher.npy
+[match_page_by_cost]
+occupation: 0
+len(page_list): 207
+len(network_page_list): 656
+       0-th page
+     206-th page
+cost: 0.0
+
+occupation: 1
+len(page_list): 458
+len(network_page_list): 449
+       0-th page
+     448-th page
+cost: 0.03946808
+
+assing_page 146.488 ms
+[calculate_cost]
+toal_cost: 0.0394762507876294
+656 pages allocated for 65531 weights
+total_network_cost: 0.15915566682815552
 ```
