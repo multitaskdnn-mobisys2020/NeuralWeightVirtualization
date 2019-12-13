@@ -1059,7 +1059,7 @@ def parse_arguments(argv):
 
 	parser.add_argument('-network_path', type=str, help='network_path', default=None)
 	parser.add_argument('-vnn_name', type=str, help='vnn_name', default=None)
-	parser.add_argument('-iter', type=int, help='training iteration', default=2000)
+	parser.add_argument('-iter', type=int, help='training iteration', default=5000)
 
 	return parser.parse_args(argv)
 
