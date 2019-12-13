@@ -15,4 +15,12 @@ Neural weight virtualization is implemented by using Python, TensorFlow, and NVI
 
 **Step 3.** Clone this NeuralWeightVirtualization repository.
 ```sh
+$ git clone https://github.com/multitaskdnn-mobisys2020/NeuralWeightVirtualization.git
+Cloning into 'NeuralWeightVirtualization'...
+remote: Enumerating objects: 225, done.
+remote: Counting objects: 100% (225/225), done.
+remote: Compressing objects: 100% (178/178), done.
+remote: Total 225 (delta 90), reused 164 (delta 42), pack-reused 0
+Receiving objects: 100% (225/225), 11.81 MiB | 15.90 MiB/s, done.
+Resolving deltas: 100% (90/90), done.
 ```
