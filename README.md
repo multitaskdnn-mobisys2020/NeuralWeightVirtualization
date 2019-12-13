@@ -85,7 +85,8 @@ $ ls -d mnist gsc gtsrb cifar10 svhn
 cifar10  gsc  gtsrb  mnist  svhn
 ```
 
-The number of weight parameters and memory usage of each DNN are shown in the below table, which is same as in the paper.
+The number of weight parameters and memory usage of each DNN are shown in the below table, which is the same as in the paper.
+
 | First Header  | Second Header |
 | ------------- | ------------- |
 | Content Cell  | Content Cell  |
