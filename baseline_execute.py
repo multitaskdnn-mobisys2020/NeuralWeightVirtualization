@@ -9,6 +9,8 @@ import ctypes
 from weight_virtualization import VNN
 from weight_virtualization import WeightVirtualization
 
+tf.logging.set_verbosity(tf.logging.ERROR)
+
 wv_op = tf.load_op_library('./tf_operation.so')
 _weight_loader = ctypes.CDLL('./weight_loader.so')
 _weight_loader.get_weight.argtypes = (ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int),

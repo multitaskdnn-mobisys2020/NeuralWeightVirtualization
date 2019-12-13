@@ -12,6 +12,7 @@ import importlib
 import matplotlib.pyplot as plt
 import time
 
+tf.logging.set_verbosity(tf.logging.ERROR)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 #np.set_printoptions(threshold=sys.maxsize)
 
@@ -118,7 +119,7 @@ class WeightVirtualization:
 		vnn = self.create_vnn(network_path)
 
 		# allocate weight pages
-		self.assign_weight_page(vnn)
+		self.match_weight_page(vnn)
 
 		# increment next_vnn_id and add vnn to the dictionary
 		self.vnns[vnn.name] = vnn
@@ -142,7 +143,7 @@ class WeightVirtualization:
 			new_vnn_list.append(vnn)
 			self.next_vnn_id += 1
 
-		self.assign_weight_page_multi(new_vnn_list)
+		self.match_weight_page_multi(new_vnn_list)
 
 		for vnn in new_vnn_list:
 			self.vnns[vnn.name] = vnn
@@ -156,7 +157,7 @@ class WeightVirtualization:
 		print('total_network_cost:', total_network_cost)
 
 	def remove_vnn(self, vnn):
-		self.deassign_weight_page(vnn)
+		self.dematch_weight_page(vnn)
 
 		if vnn.name in self.vnns:
 			del self.vnns[vnn.name]
@@ -441,7 +442,8 @@ class WeightVirtualization:
 	def get_fisher_sum_vector(self):
 		fisher_dic = {}
 		for name_, vnn_ in self.vnns.items():
-			fisher = self.load_vnn_fisher(vnn_)
+			fisher = self.load_network_fisher(vnn_)
+			#fisher = self.load_vnn_fisher(vnn_)
 			fisher_vector = self.vectorize_list(fisher)
 			fisher_dic[vnn_.id] = fisher_vector
 
@@ -613,8 +615,8 @@ class WeightVirtualization:
 
 		return total_cost
 
-	def assign_page_by_cost(self, vnn):
-		print('[assign_page_by_cost]')
+	def match_page_by_cost(self, vnn):
+		print('[match_page_by_cost]')
 		fisher_sum_vector = self.get_fisher_sum_vector()
 		weight_vector = self.weight_page.flatten()
 		assert len(fisher_sum_vector) == len(weight_vector)
@@ -727,8 +729,8 @@ class WeightVirtualization:
 
 		return weight_vector_pad
 
-	def assign_page_by_random_multi(self, vnn_list):
-		print('[assign_page_by_random_multi]')
+	def match_page_by_random_multi(self, vnn_list):
+		print('[match_page_by_random_multi]')
 		for vnn in vnn_list:
 			network_fisher_vector = self.get_fisher_vector_pad(vnn, 'network')
 			network_weight_vector = self.get_weight_vector_pad(vnn, 'network')
@@ -736,8 +738,8 @@ class WeightVirtualization:
 			page_to_alloc = len(network_weight_vector)/self.weight_per_page
 			vnn.weight_page_list = np.random.choice(self.num_of_weight_page, page_to_alloc, replace=False)
 
-	def assign_page_by_cost_multi(self, vnn_list):
-		print('[assign_page_by_cost_multi]')
+	def match_page_by_cost_multi(self, vnn_list):
+		print('[match_page_by_cost_multi]')
 		fisher_sum_vector = self.get_fisher_sum_vector()
 		weight_vector = self.weight_page.flatten()
 		assert len(fisher_sum_vector) == len(weight_vector)
@@ -777,8 +779,8 @@ class WeightVirtualization:
 				raise Exception('weight_page_list is not unique')
 			vnn.weight_page_list = weight_page_list
 
-	def assign_page_by_random(self, vnn, num_of_page_to_select):
-		print('[assign_page_by_random]')
+	def match_page_by_random(self, vnn, num_of_page_to_select):
+		print('[match_page_by_random]')
 		weight_page_occupation = self.load_weight_page_occupation()
 		len_list_of_occupation = np.asarray([len(page_occupation) for page_occupation in weight_page_occupation])
 		max_occupation = np.max(len_list_of_occupation)
@@ -807,7 +809,7 @@ class WeightVirtualization:
 		vnn.weight_page_list = weight_page_list.astype(np.int32)
 		#vnn.weight_page_list = np.random.choice(self.num_of_weight_page, num_of_page_to_select, replace=False)
 
-	def assign_weight_page(self, vnn):
+	def match_weight_page(self, vnn):
 		num_of_weight_page = vnn.num_of_weight // self.weight_per_page
 		if vnn.num_of_weight % self.weight_per_page != 0:
 			num_of_weight_page += 1
@@ -818,8 +820,8 @@ class WeightVirtualization:
 			vnn.weight_page_list = np.arange(num_of_weight_page, dtype=np.int32)
 		else:
 			time1 = time.time()
-			#self.assign_page_by_random(vnn, num_of_weight_page)
-			self.assign_page_by_cost(vnn)
+			#self.match_page_by_random(vnn, num_of_weight_page)
+			self.match_page_by_cost(vnn)
 			time2 = time.time()
 			print('assing_page %0.3f ms' % ((time2-time1)*1000.0))
 
@@ -828,7 +830,7 @@ class WeightVirtualization:
 		print("%d pages allocated for %d weights" %
 			(len(vnn.weight_page_list), vnn.num_of_weight))
 
-	def assign_weight_page_multi(self, vnn_list):
+	def match_weight_page_multi(self, vnn_list):
 		for vnn in vnn_list:
 			num_of_weight_page = vnn.num_of_weight // self.weight_per_page
 			if vnn.num_of_weight % self.weight_per_page != 0:
@@ -836,7 +838,7 @@ class WeightVirtualization:
 			assert num_of_weight_page <= self.num_of_weight_page,\
 				"%d vs. %d" % (num_of_weight_page, self.num_of_weight_page)
 
-		self.assign_page_by_cost_multi(vnn_list)
+		self.match_page_by_cost_multi(vnn_list)
 
 		for vnn in vnn_list:
 			self.update_weight_page_occupation(vnn)
@@ -849,7 +851,7 @@ class WeightVirtualization:
 		"""
 		if os.path.exists(self.weight_page_occupation_filename):
 			os.remove(self.weight_page_occupation_filename)
-		self.assign_page_by_random_multi(vnn_list)
+		self.match_page_by_random_multi(vnn_list)
 		for vnn in vnn_list:
 			self.update_weight_page_occupation(vnn)
 		total_cost = self.calculate_network_cost(vnn_list)
@@ -861,7 +863,7 @@ class WeightVirtualization:
 		exit(1)
 		"""
 
-	def deassign_weight_page(self, vnn):
+	def dematch_weight_page(self, vnn):
 		weight_page_occupation = self.load_weight_page_occupation()
 		for page in weight_page_occupation:
 			for occupation in page:
@@ -911,7 +913,7 @@ class WeightVirtualization:
 		weight_virtualization_op = tf.load_op_library(self.weight_virtualization_op_filename)
 		return weight_virtualization_op.harmonic_mean(cost_list)
 
-	def get_matching_loss(self, vnn, sess, lamb=100.0):
+	def get_matching_loss(self, vnn, sess, lamb=10.0):
 		print ("get_matching_loss")
 		matching_loss = tf.constant(0.0)
 
@@ -929,8 +931,8 @@ class WeightVirtualization:
 			if vnn.id == vnn_.id:
 				continue;
 
-			#fisher = self.load_network_fisher(vnn_)
-			fisher = self.load_vnn_fisher(vnn_)
+			fisher = self.load_network_fisher(vnn_)
+			#fisher = self.load_vnn_fisher(vnn_)
 			if fisher is None:
 				continue
 			fisher_vector = self.vectorize_list(fisher)
