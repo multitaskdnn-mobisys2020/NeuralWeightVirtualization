@@ -3,7 +3,7 @@
 ## Introduction
 This is an open-source repository of the paper titled "***Fast and Scalable In-memory Deep Multitask Learning via Neural Weight Virtualization***", which is submitted to [MobiSys 2020](https://www.sigmobile.org/mobisys/2020/). It enables fast and scalable in-memory multitask deep learning on memory-constrained embedded systems by (1) packing multiple DNNs into a fixed-sized main memory whose combined memory requirement is larger than the main memory, and (2) enabling fast in-memory execution of the DNNs. 
 
-This repository implements (1) *virtualization of weight parameters* of multiple heterogeneous DNNs of arbitrary network architectures, and (2) *in-memory execution and context-switching* of deep neural network (DNN) tasks. For the reviewers' convenience, we provide a step-by-step guideline of the weight virtualization and in-memory execution of the five DNN that are used for the multitask learning IoT device, one of the application systems we implemented in the paper; the size of those DNNs are small so that the entire process of weight virtualization can be easily demonstrated in a reasonable time. The five DNNs are [MNIST](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf), [GoogleSpeechCommands (GSC)](https://arxiv.org/abs/1804.03209), [German Traffic Sign Recognition Benchmark (GTSRB)](https://www.ini.rub.de/upload/file/1470692848_f03494010c16c36bab9e/StallkampEtAl_GTSRB_IJCNN2011.pdf), [CIFAR-10](https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf), [Street View House Numbers (SVHN)](http://ufldl.stanford.edu/housenumbers/nips2011_housenumbers.pdf).
+This repository implements (1) *virtualization of weight parameters* of multiple heterogeneous DNNs of arbitrary network architectures, and (2) *in-memory execution and context-switching* of deep neural network (DNN) tasks. For the reviewers' convenience, we provide a step-by-step guideline of the weight virtualization and in-memory execution of the five DNN that are used for the multitask learning IoT device, one of the application systems we implemented in the paper. The sizes of those DNNs are small so the entire process of weight virtualization can be easily demonstrated in a reasonable time without requiring to spend several days. The five DNNs are [MNIST](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf), [GoogleSpeechCommands (GSC)](https://arxiv.org/abs/1804.03209), [German Traffic Sign Recognition Benchmark (GTSRB)](https://www.ini.rub.de/upload/file/1470692848_f03494010c16c36bab9e/StallkampEtAl_GTSRB_IJCNN2011.pdf), [CIFAR-10](https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf), [Street View House Numbers (SVHN)](http://ufldl.stanford.edu/housenumbers/nips2011_housenumbers.pdf).
 
 &nbsp;
 ## Software Install and Setup
@@ -27,7 +27,7 @@ Receiving objects: 100% (225/225), 11.81 MiB | 15.90 MiB/s, done.
 Resolving deltas: 100% (90/90), done.
 ```
 
-## 1) Download datasets (Preliminary 1)
+## 1) Download Datasets (Preliminary 1)
 Download the datasets for the five DNNs by executing the downloading script (download_dataset.sh). The script uses [curl](https://curl.haxx.se/download.html) for downloading the datasets. 
 ```sh
 $ ./download_dataset.sh 
@@ -78,5 +78,11 @@ $ ./download_dataset.sh
 100  286k  100  286k    0     0   788k      0 --:--:-- --:--:-- --:--:--  788k
 ```
 
-## 2) Prepare (and train) DNN models (Preliminary 2)
-Next, we need to obtain and train DNN models for the five datasets. For the reviewers' convenience, pre-trained DNN models  
+## 2) Prepare (and Train) DNN Models (Preliminary 2)
+The next preliminary step is to obtain and train DNN models for the five datasets. For the reviewers' convenience, we include pre-trained models of the five DNNs in this repository. They are located in separate folders.
+```sh
+$ ls -d mnist gsc gtsrb cifar10 svhn
+cifar10  gsc  gtsrb  mnist  svhn
+```
+
+## Weight virtualization Step 1: Weight-Page Matching
