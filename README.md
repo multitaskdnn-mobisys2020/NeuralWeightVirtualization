@@ -158,3 +158,150 @@ toal_cost: 0.0394762507876294
 656 pages allocated for 65531 weights
 total_network_cost: 0.15915566682815552
 ```
+
+Perform weight-page matching for the third (GTSRB) with the following Python script.
+```sh
+$ python weight_virtualization.py -mode=a -network_path=gtsrb
+add_vnn
+gtsrb/gtsrb_network_weight.npy
+compute_fisher
+do_compute_fisher
+sample num:    0, data_idx: 23099
+sample num:    1, data_idx: 22485
+sample num:    2, data_idx: 15947
+...
+...
+...
+sample num:   97, data_idx:  6798
+sample num:   98, data_idx:  9251
+sample num:   99, data_idx: 18952
+gtsrb/gtsrb_network_fisher.npy
+[match_page_by_cost]
+occupation: 0
+len(page_list): 0
+len(network_page_list): 665
+cost: 0
+
+occupation: 1
+len(page_list): 216
+len(network_page_list): 665
+       0-th page
+     215-th page
+cost: 1.4526434
+
+occupation: 2
+len(page_list): 449
+len(network_page_list): 449
+       0-th page
+     448-th page
+cost: 0.047510564
+
+assing_page 150.184 ms
+[calculate_cost]
+toal_cost: 1.5001573274303155
+665 pages allocated for 66475 weights
+total_network_cost: 6.379258215427399
+```
+
+Perform weight-page matching for the fourth (CIFAR-10) with the following Python script.
+```sh
+$ python weight_virtualization.py -mode=a -network_path=cifar10
+add_vnn
+cifar10/cifar10_network_weight.npy
+compute_fisher
+do_compute_fisher
+sample num:    0, data_idx: 30796
+sample num:    1, data_idx: 44166
+sample num:    2, data_idx:  2649
+...
+...
+...
+sample num:   97, data_idx:  6889
+sample num:   98, data_idx: 36036
+sample num:   99, data_idx:  1621
+cifar10/cifar10_network_fisher.npy
+[match_page_by_cost]
+occupation: 0
+len(page_list): 0
+len(network_page_list): 455
+cost: 0
+
+occupation: 1
+len(page_list): 0
+len(network_page_list): 455
+cost: 0
+
+occupation: 2
+len(page_list): 216
+len(network_page_list): 455
+       0-th page
+     215-th page
+cost: 13.863106
+
+occupation: 3
+len(page_list): 449
+len(network_page_list): 239
+       0-th page
+     238-th page
+cost: 0.0028860972
+
+assing_page 134.211 ms
+[calculate_cost]
+toal_cost: 13.865990731732381
+455 pages allocated for 45490 weights
+total_network_cost: 71.27165424823761
+```
+
+Perform weight-page matching for the fifth (SVHN) with the following Python script.
+```sh
+$ python weight_virtualization.py -mode=a -network_path=svhn
+add_vnn
+svhn/svhn_network_weight.npy
+compute_fisher
+do_compute_fisher
+sample num:    0, data_idx: 51356
+sample num:    1, data_idx: 47162
+sample num:    2, data_idx:   624
+...
+...
+...
+sample num:   97, data_idx: 46074
+sample num:   98, data_idx: 41740
+sample num:   99, data_idx: 42296
+svhn/svhn_network_fisher.npy
+[match_page_by_cost]
+occupation: 0
+len(page_list): 0
+len(network_page_list): 455
+cost: 0
+
+occupation: 1
+len(page_list): 0
+len(network_page_list): 455
+cost: 0
+
+occupation: 2
+len(page_list): 0
+len(network_page_list): 455
+cost: 0
+
+occupation: 3
+len(page_list): 426
+len(network_page_list): 455
+       0-th page
+     425-th page
+cost: 5.48569
+
+occupation: 4
+len(page_list): 239
+len(network_page_list): 29
+       0-th page
+      28-th page
+cost: 0.0003839913
+
+assing_page 143.431 ms
+[calculate_cost]
+toal_cost: 5.486162122021597
+455 pages allocated for 45490 weights
+total_network_cost: 114.62664997577667
+```
