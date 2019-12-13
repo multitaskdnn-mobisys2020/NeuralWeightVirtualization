@@ -1,1 +1,1 @@
-# NeuralWeight-Virtualization
+# NeuralWeightVirtualization
