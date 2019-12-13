@@ -27,7 +27,7 @@ Receiving objects: 100% (225/225), 11.81 MiB | 15.90 MiB/s, done.
 Resolving deltas: 100% (90/90), done.
 ```
 
-## 1) Download Datasets (Preliminary 1)
+## 1) Download Datasets (Preliminary Step 1)
 Download the datasets for the five DNNs by executing the downloading script (download_dataset.sh). The script uses [curl](https://curl.haxx.se/download.html) for downloading the datasets. 
 ```sh
 $ ./download_dataset.sh 
@@ -78,7 +78,7 @@ $ ./download_dataset.sh
 100  286k  100  286k    0     0   788k      0 --:--:-- --:--:-- --:--:--  788k
 ```
 
-## 2) Prepare (and Train) DNN Models (Preliminary 2)
+## 2) Prepare (and Train) DNN Models (Preliminary Step 2)
 The next preliminary step is to obtain and train DNN models for the five datasets. For the reviewers' convenience, we include pre-trained models of the five DNNs in this repository. They are located in separate folders.
 ```sh
 $ ls -d mnist gsc gtsrb cifar10 svhn
