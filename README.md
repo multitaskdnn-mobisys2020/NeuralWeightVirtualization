@@ -78,11 +78,43 @@ $ ./download_dataset.sh
 100  286k  100  286k    0     0   788k      0 --:--:-- --:--:-- --:--:--  788k
 ```
 
-## 2) Prepare (and Train) DNN Models (Preliminary Step 2)
+## 2) Prepare and Train DNN Models (Preliminary Step 2)
 The next preliminary step is to obtain and train DNN models for the five datasets. For the reviewers' convenience, we include pre-trained models of the five DNNs in this repository. They are located in separate folders.
 ```sh
 $ ls -d mnist gsc gtsrb cifar10 svhn
 cifar10  gsc  gtsrb  mnist  svhn
 ```
 
-## Weight virtualization Step 1: Weight-Page Matching
+## 3) Weight virtualization Step 1: Weight-Page Matching
+The first step of weight virtualization is the weight-page matching, which is performed by the following Python script. It first computes Fisher information of the DNN and then perform weight-page matching as described in the paper. Each DNN performs the weight-page matching one by one.
+
+**MNIST**
+```sh
+init new weight pages
+add_vnn
+mnist/mnist_network_weight.npy
+compute_fisher
+Successfully downloaded train-images-idx3-ubyte.gz 9912422 bytes.
+Extracting MNIST_data/train-images-idx3-ubyte.gz
+Successfully downloaded train-labels-idx1-ubyte.gz 28881 bytes.
+Extracting MNIST_data/train-labels-idx1-ubyte.gz
+Successfully downloaded t10k-images-idx3-ubyte.gz 1648877 bytes.
+Extracting MNIST_data/t10k-images-idx3-ubyte.gz
+Successfully downloaded t10k-labels-idx1-ubyte.gz 4542 bytes.
+Extracting MNIST_data/t10k-labels-idx1-ubyte.gz
+do_compute_fisher
+sample num:    0, data_idx: 40422
+sample num:    1, data_idx: 43444
+sample num:    2, data_idx: 23402
+...
+...
+...
+sample num:   97, data_idx: 40313
+sample num:   98, data_idx: 21500
+sample num:   99, data_idx:  3595
+mnist/mnist_network_fisher.npy
+[calculate_cost]
+toal_cost: 0.0
+458 pages allocated for 45706 weights
+total_network_cost: 0
+```
