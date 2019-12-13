@@ -54,7 +54,7 @@ def v_execute(graph, sess, input_tensors, input_variables, ground_truth):
 
 	return infer_result, test_accuracy
 
-def v_train(graph, sess, sharing_loss, batch_size, train_iteration, get_weight_func):
+def v_train(graph, sess, matching_cost, batch_size, train_iteration, get_weight_func):
 	print("v_train")
 
 	data = __import__(import_name)
@@ -72,8 +72,8 @@ def v_train(graph, sess, sharing_loss, batch_size, train_iteration, get_weight_f
 
 	learning_rate = 0.001
 	optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate,
-		name='sharing_loss_optimizer')
-	loss = optimizer.minimize(tf.add(cross_entropy, sharing_loss))
+		name='matching_cost_optimizer')
+	loss = optimizer.minimize(tf.add(cross_entropy, matching_cost))
 
 	sess.run(tf.variables_initializer(optimizer.variables()))
 
@@ -89,7 +89,7 @@ def v_train(graph, sess, sharing_loss, batch_size, train_iteration, get_weight_f
 		input_data_reshpaed = np.reshape(input_data, ([-1] + x.get_shape().as_list()[1:]))
 
 		if i % (100) == 0 or i == (train_iteration-1):
-			original_loss, matching_loss, train_accuracy = sess.run([cross_entropy, sharing_loss, accuracy],
+			original_loss, matching_loss, train_accuracy = sess.run([cross_entropy, matching_cost, accuracy],
 				feed_dict={x: input_data_reshpaed, y_: labels, keep_prob_input: 1.0, keep_prob: 1.0})
 			print("step %d, training accuracy: %f original loss: %f matching loss: %f"
 				% (i, train_accuracy, original_loss, matching_loss))

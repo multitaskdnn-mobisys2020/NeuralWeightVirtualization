@@ -180,9 +180,9 @@ class WeightVirtualization:
 		with tf.Graph().as_default() as graph:
 			with tf.Session(graph=graph) as sess:
 				self.restore_vnn(vnn, graph, sess)
-				sharing_loss = self.get_sharing_loss(vnn, sess, lamb=10.0)
+				matching_loss = self.get_matching_loss(vnn, sess, lamb=10.0)
 				pintle = self.import_pintle(vnn)
-				weight_vector = pintle.pintle.v_train(graph, sess, sharing_loss,
+				weight_vector = pintle.pintle.v_train(graph, sess, matching_loss,
 					100, iteration, self.get_weight_from_vnn)
 				#weight_vector = self.get_weight_from_vnn(sess)
 				if weight_vector is not None:
@@ -544,7 +544,7 @@ class WeightVirtualization:
 
 		return weight_vector_page_order
 
-	def sharing_cost_pair(self, fisher1, weight1, fisher2, weight2):
+	def matching_cost_pair(self, fisher1, weight1, fisher2, weight2):
 		assert len(fisher1) == len(weight1)
 		assert len(fisher2) == len(weight2)
 		assert len(fisher1) == len(fisher2)
@@ -609,7 +609,7 @@ class WeightVirtualization:
 				fisher2[zero_fisher1] = 0
 				zero_fisher2 = np.where(fisher2 <= 0)
 				fisher1[zero_fisher2] = 0
-				total_cost += self.sharing_cost_pair(fisher1, weight1, fisher2, weight2)
+				total_cost += self.matching_cost_pair(fisher1, weight1, fisher2, weight2)
 
 		return total_cost
 
@@ -911,9 +911,9 @@ class WeightVirtualization:
 		weight_virtualization_op = tf.load_op_library(self.weight_virtualization_op_filename)
 		return weight_virtualization_op.harmonic_mean(cost_list)
 
-	def get_sharing_loss(self, vnn, sess, lamb=100.0):
-		print ("get_sharing_loss")
-		sharing_loss = tf.constant(0.0)
+	def get_matching_loss(self, vnn, sess, lamb=100.0):
+		print ("get_matching_loss")
+		matching_loss = tf.constant(0.0)
 
 		tensor_weights = tf.trainable_variables()
 		tensor_weights_concat = []
@@ -975,11 +975,11 @@ class WeightVirtualization:
 			cost_list.append(tf.multiply(weight_diff_square, fisher_vector_reordered))
 
 		if cost_list:
-			#sharing_loss += self.quadratic_mean(cost_list)
-			sharing_loss += self.arithmetic_mean(cost_list)
-			#sharing_loss += self.harmonic_mean(cost_list)
+			#matching_loss += self.quadratic_mean(cost_list)
+			matching_loss += self.arithmetic_mean(cost_list)
+			#matching_loss += self.harmonic_mean(cost_list)
 
-		return lamb*sharing_loss
+		return lamb*matching_loss
 
 	def vectorize_list(self, list_to_vectorize):
 		vector_list = []
@@ -1055,7 +1055,7 @@ def parse_arguments(argv):
 	# t: train a vnn
 	# e: execute inference of a vnn
 	# f: compute fisher informaiont of a vnn
-	# c: calculate sharing cost
+	# c: calculate matching cost
 
 	parser.add_argument('-network_path', type=str, help='network_path', default=None)
 	parser.add_argument('-vnn_name', type=str, help='vnn_name', default=None)
