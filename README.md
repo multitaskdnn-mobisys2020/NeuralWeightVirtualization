@@ -341,12 +341,12 @@ get new weight for 0.8616
 ...
 ...
 step 1700, Validation accuracy: 0.839966
-step 1800, training accuracy: 0.890000 ce: 4.937591 sl: 0.009319
+step 1800, training accuracy: 0.890000 original loss:: 4.937591 matching loss: 0.009319
 step 1800, Validation accuracy: 0.840005
-step 1900, training accuracy: 0.880000 ce: 5.124782 sl: 0.009399
+step 1900, training accuracy: 0.880000 original loss:: 5.124782 matching loss: 0.009399
 step 1900, Validation accuracy: 0.846727
 get new weight for 0.84672713
-step 1999, training accuracy: 0.890000 ce: 4.990521 sl: 0.009340
+step 1999, training accuracy: 0.890000 original loss: 4.990521 matching loss 0.009340
 step 1999, Validation accuracy: 0.842732
 svhn/svhn_weight.npy
 Extracting MNIST_data/train-images-idx3-ubyte.gz
