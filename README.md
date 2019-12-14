@@ -319,7 +319,7 @@ total_network_cost: 114.62664997577667
 ```
 
 ## 4) Weight Virtualization Step 2: Weight-Page Optimization
-After the optimization is finished, the virtual weight-pages are generated (*virtual_weight_page.npy*). The final inference accuracy of each DNN that is achieved with the virtual weight-pages can be checked with the following Python script (*weight_virtualization.py*).
+The next step of weight virtualization is the weight-page optimization, which combines the matched weight-pages into single virtual weight-pages and optimizes them for the DNN tasks. Here, we perform joint optimization in which all the DNN tasks are optimized together by executing a shell script (*joint_optimization.sh*).
 ```sh
 $ ./joint_optimization.sh 
 1-th joint optimization
@@ -360,7 +360,7 @@ Inference accuracy: 0.585900
 Inference accuracy: 0.849647
 ```
 
-After the optimization is finished the virtual weight-pages are generated (*virtual_weight_page.npy*). The final inference accuracy of each DNN that is achieved with the virtual weight-pages can be checked with the following Python script (*weight_virtualization.py*).
+After the optimization is finished, the virtual weight-pages are generated (*virtual_weight_page.npy*). The final inference accuracy of each DNN that is achieved with the virtual weight-pages can be checked with the following Python script (*weight_virtualization.py*).
 ```sh
 $ python weight_virtualization.py -mode=e -vnn_name=mnist
 Extracting MNIST_data/train-images-idx3-ubyte.gz
