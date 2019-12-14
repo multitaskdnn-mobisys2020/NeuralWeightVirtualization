@@ -94,7 +94,7 @@ The number of weight parameters and memory usage of each DNN are shown in the be
 | GTSRB | 66,475 | 258 |
 | CIFAR-10 | 45,490 | 176 |
 | SVHN | 45,490 | 176 |
-| **Total** | **268,692** | **1046** |
+| **Total** | **268,692** | **1,046** |
 | **Virtualized** | **66,475** | **258** |
 
 ## 3) Weight virtualization Step 1: Weight-Page Matching
