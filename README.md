@@ -98,7 +98,7 @@ The number of weight parameters and memory usage of each DNN model are shown in 
 | **Virtualized** | **66,475** | **258** |
 
 ## 3) Weight Virtualization Step 1: Weight-Page Matching
-The first step of weight virtualization is the weight-page matching, which is performed by a Python script (*weight_virtualization.py*). It first computes Fisher information of the DNN and then perform weight-page matching as described in the paper. Each DNN performs the weight-page matching one by one.
+The first step of weight virtualization is the weight-page matching, which is performed by a Python script (*weight_virtualization.py*). It first computes Fisher information of the DNN and then performs weight-page matching as described in the paper. Each DNN performs the weight-page matching one by one.
 
 Perform weight-page matching for the first DNN (MNIST) with the following Python script.
 ```sh
