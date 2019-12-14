@@ -387,6 +387,77 @@ Inference accuracy: 0.849647
 ```
 
 ## 5) In-Memory Multitask Execution vs. No In-Memory Multitask Execution
-Once the weight virtualization is completed, the virtual weight-pages that will be shared between the DNNs are generated (*virtual_weight_page.npy*). Then, the virtual weight-pages are loaded into the GPU RAM, and the DNNs executed entirely in the GPU RAM, which enables fast and responsive execution of the DNNs.
+Once the weight virtualization is completed, the virtual weight-pages that will be shared between the DNNs are generated (*virtual_weight_page.npy*) and loaded into the GPU RAM. By using the virtual weight pages, the DNNs are executed entirely in the GPU RAM, which enables fast and responsive execution of the DNNs.
 
-We compare the DNN switching (weight parameter loading) time and execution time of the in-memory multitask execution against the not virtualized baseline DNNs that perform the switching and execution by using the secondary storage module (e.g., HDD or SSD) as done in many state-of-the-art DNNs today.    
+We compare the DNN switching (weight parameter loading) and execution time of the in-memory multitask execution against the not virtualized baseline DNNs that perform the DNN switching (restoring the saved weight parameters) and execution by using the secondary storage module (e.g., HDD or SSD) as done in many state-of-the-art DNNs today.
+
+First, the in-memory execution is performed by the following Python script (i.e., *in-memory_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time for the 30 DNN execution are 3.919 ms and 4443.045 ms, respectively.
+
+```sh
+$ python in-memory_execute.py 
+virtual_weight address: 140111287156736
+init virtual_weight 87.536 ms
+[VNN 0][cifar10] init page table 3.399 ms
+[VNN 1][gsc] init page table 2.733 ms
+[VNN 2][gtsrb] init page table 2.462 ms
+[VNN 3][mnist] init page table 2.361 ms
+[VNN 4][svhn] init page table 2.465 ms
+tf.global_variables_initializer 696.639 ms
+[Executing] svhn
+weights load time : 0.204 ms
+DNN execution time: 1350.998 ms
+Inference accuracy: 0.849647
+[Executing] gsc
+weights load time : 0.165 ms
+DNN execution time: 273.202 ms
+Inference accuracy: 0.745388
+...
+...
+...
+[Executing] cifar10
+weights load time : 0.123 ms
+DNN execution time: 92.804 ms
+Inference accuracy: 0.585900
+[Executing] svhn
+weights load time : 0.123 ms
+DNN execution time: 178.231 ms
+Inference accuracy: 0.849647
+total weights load time : 3.919 ms
+total DNN execution time: 4443.045 ms
+```
+
+Next, the no in-memory execution is performed by the following Python script (i.e., *baseline_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time for the 30 DNN execution are 1801.726 ms and 4559.881 ms, respectively.
+```sh
+python baseline_execute.py 
+[Executing] cifar10
+weights load time : 377.985 ms
+DNN execution time: 968.260 ms
+Inference accuracy: 0.555200
+Extracting MNIST_data/train-images-idx3-ubyte.gz
+Extracting MNIST_data/train-labels-idx1-ubyte.gz
+Extracting MNIST_data/t10k-images-idx3-ubyte.gz
+Extracting MNIST_data/t10k-labels-idx1-ubyte.gz
+[Executing] mnist
+weights load time : 45.943 ms
+DNN execution time: 169.006 ms
+Inference accuracy: 0.980800
+...
+...
+...
+[Executing] gtsrb
+weights load time : 38.172 ms
+DNN execution time: 74.077 ms
+Inference accuracy: 0.928029
+[Executing] gtsrb
+weights load time : 37.190 ms
+DNN execution time: 74.039 ms
+Inference accuracy: 0.928029
+[Executing] gsc
+weights load time : 41.281 ms
+DNN execution time: 54.813 ms
+Inference accuracy: 0.694684
+total weights load time : 1801.726 ms
+total DNN execution time: 4559.881 ms
+```
+
+It shows that in-memory execution accelerates the DNN switching time by 459x (1801.726 ms vs. 3.919 ms).
