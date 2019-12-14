@@ -89,9 +89,10 @@ def v_train(graph, sess, matching_cost, batch_size, train_iteration, get_weight_
 		input_data_reshpaed = np.reshape(input_data, ([-1] + x.get_shape().as_list()[1:]))
 
 		if i % (100) == 0 or i == (train_iteration-1):
-			ce, sl, train_accuracy = sess.run([cross_entropy, matching_cost, accuracy], feed_dict={
-				x: input_data_reshpaed, y_: labels, keep_prob_input: 1.0, keep_prob: 1.0})
-			print("step %d, training accuracy: %f ce: %f sl: %f" % (i, train_accuracy, ce, sl))
+			original_loss, matching_loss, train_accuracy = sess.run([cross_entropy, matching_cost, accuracy],
+				feed_dict={x: input_data_reshpaed, y_: labels, keep_prob_input: 1.0, keep_prob: 1.0})
+			print("step %d, training accuracy: %f original loss: %f matching loss: %f"
+				% (i, train_accuracy, original_loss, matching_loss))
 
 			# validate
 			test_accuracy = sess.run(accuracy, feed_dict={
