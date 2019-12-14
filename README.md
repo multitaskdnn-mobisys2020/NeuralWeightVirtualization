@@ -85,7 +85,7 @@ $ ls -d mnist gsc gtsrb cifar10 svhn
 cifar10  gsc  gtsrb  mnist  svhn
 ```
 
-The number of weight parameters and memory usage of each DNN model are shown in the below table, which is the same as in the paper. In short, a total of 268,692 weight parameters (1,046 KB) are virtualized into 66,475 weights (258 KB).
+The number of weight parameters and memory usage of each DNN model are shown in the below table, which is the same as in the paper. In short, a total of 268,692 weight parameters (1,046 KB) are virtualized into 66,475 weights (258 KB), achieving 4x of packing efficiency.
 
 | DNN | Number of weights | Memory (KB) |
 | :-------------: | -------------: | -------------: |
@@ -386,12 +386,12 @@ python weight_virtualization.py -mode=e -vnn_name=svhn
 Inference accuracy: 0.849647
 ```
 
-## 5) In-Memory Multitask Execution vs. No In-Memory Multitask Execution
+## 5) In-Memory Execution (ours) vs. No In-Memory Execution (previous)
 Once the weight virtualization is completed, the virtual weight-pages that will be shared between the DNNs are generated (*virtual_weight_page.npy*) and loaded into the GPU RAM. By using the virtual weight pages, the DNNs are executed entirely in the GPU RAM, which enables fast and responsive execution of the DNNs.
 
-We compare the DNN switching (weight parameter loading) and execution time of the in-memory multitask execution against the not virtualized baseline DNNs that perform the DNN switching (restoring the saved weight parameters) and execution by using the secondary storage module (e.g., HDD or SSD) as done in many state-of-the-art DNNs today.
+We compare the DNN switching (weight parameter loading) and execution time of the in-memory multitask execution against the non-virtualized baseline DNNs that perform the DNN switching (restoring the saved weight parameters) and execution based on a secondary storage module (e.g., HDD or SSD) as done in many state-of-the-art DNNs today.
 
-First, the in-memory execution is performed by the following Python script (i.e., *in-memory_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time for the 30 DNN execution are 3.919 ms and 4443.045 ms, respectively.
+First, the in-memory execution is performed by the following Python script (i.e., *in-memory_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time of the 30 DNN execution are 3.919 ms and 4443.045 ms, respectively.
 
 ```sh
 $ python in-memory_execute.py 
@@ -426,7 +426,7 @@ total weights load time : 3.919 ms
 total DNN execution time: 4443.045 ms
 ```
 
-Next, the no in-memory execution is performed by the following Python script (i.e., *baseline_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time for the 30 DNN execution are 1801.726 ms and 4559.881 ms, respectively.
+Next, the no in-memory execution is performed by the following Python script (i.e., *baseline_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time of the 30 DNN execution are 1801.726 ms and 4559.881 ms, respectively.
 ```sh
 python baseline_execute.py 
 [Executing] cifar10
