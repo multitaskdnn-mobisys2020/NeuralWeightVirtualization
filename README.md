@@ -87,9 +87,9 @@ cifar10  gsc  gtsrb  mnist  svhn
 
 The number of weight parameters and memory usage of each DNN are shown in the below table, which is the same as in the paper.
 
-| First Header  | Second Header |
+| DNN | Number of weights |
 | ------------- | ------------- |
-| Content Cell  | Content Cell  |
+| MNIST  | 45,706 |
 | Content Cell  | Content Cell  |
 
 ## 3) Weight virtualization Step 1: Weight-Page Matching
