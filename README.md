@@ -88,9 +88,12 @@ cifar10  gsc  gtsrb  mnist  svhn
 The number of weight parameters and memory usage of each DNN are shown in the below table, which is the same as in the paper.
 
 | DNN | Number of weights | Memory (KB) |
-| :-------------: | :-------------: | :-------------: |
+| :-------------: | -------------: | -------------: |
 | MNIST  | 45,706 | 89 |
 | GSC | 65,531 | 128 |
+| GTSRB | 66,475 | 129 |
+| CIFAR-10 | 45,490 | 88 |
+| SVHN | 45,490 | 88 |
 
 ## 3) Weight virtualization Step 1: Weight-Page Matching
 The first step of weight virtualization is the weight-page matching, which is performed by a Python script (*weight_virtualization.py*). It first computes Fisher information of the DNN and then perform weight-page matching as described in the paper. Each DNN performs the weight-page matching one by one.
