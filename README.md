@@ -461,3 +461,5 @@ total DNN execution time: 4559.881 ms
 ```
 
 It shows that in-memory execution accelerates the DNN switching time by 459x (1801.726 ms vs. 3.919 ms).
+
+We hope this will help you review this paper. Please contact multitaskdnn.mobisys2020@gmail.com if you have any questions!
