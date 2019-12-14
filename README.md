@@ -85,17 +85,17 @@ $ ls -d mnist gsc gtsrb cifar10 svhn
 cifar10  gsc  gtsrb  mnist  svhn
 ```
 
-The number of weight parameters and memory usage of each DNN model are shown in the below table, which is the same as in the paper. In short, a total of ***268,692 weight parameters (1,046 KB)*** are virtualized into ***66,475 weights (258 KB)***, achieving ***4x*** of packing efficiency.
+The number of weight parameters, memory usage, and inference accuracy of each DNN model are shown in the below table, which is the same as in the paper. In short, a total of ***268,692 weight parameters (1,046 KB)*** are virtualized into ***66,475 weights (258 KB)***, achieving ***4x*** of packing efficiency.
 
-| DNN | Number of weights | Memory (KB) |
-| :-------------: | -------------: | -------------: |
-| MNIST  | 45,706 | 178 |
-| GSC | 65,531 | 256 |
-| GTSRB | 66,475 | 258 |
-| CIFAR-10 | 45,490 | 176 |
-| SVHN | 45,490 | 176 |
-| **Total** | **268,692** | **1,046** |
-| **Virtualized** | **66,475** | **258** |
+| DNN | Number of weights | Memory (KB) | Accuracy (%) |
+| :-------------: | -------------: | -------------: | -------------: |
+| MNIST  | 45,706 | 178 | 98.33 |
+| GSC | 65,531 | 256 | 69.86 |
+| GTSRB | 66,475 | 258 | 92.74 |
+| CIFAR-10 | 45,490 | 176 | 55.68 |
+| SVHN | 45,490 | 176 | 81.55 |
+| **Total** | ***268,692*** | ***1,046*** | - |
+| **Virtualized** | ***66,475*** | ***258*** | - |
 
 ## 3) Weight Virtualization Step 1: Weight-Page Matching
 The first step of weight virtualization is the weight-page matching, which is performed by a Python script (*weight_virtualization.py*). It first computes Fisher information of the DNN and then performs weight-page matching as described in the paper. Each DNN performs the weight-page matching one by one.
@@ -391,7 +391,7 @@ Once the weight virtualization is completed, the virtual weight-pages that will 
 
 We compare the DNN switching (weight parameter loading) and execution time of the in-memory multitask execution against the non-virtualized baseline DNNs that perform the DNN switching (restoring the saved weight parameters) and execution based on a secondary storage module (e.g., HDD or SSD) as done in many state-of-the-art DNNs today.
 
-First, the in-memory execution is performed by the following Python script (i.e., *in-memory_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time of the 30 DNN execution are 3.919 ms and 4443.045 ms, respectively.
+First, the in-memory execution is performed by the following Python script (i.e., *in-memory_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time of the 30 DNN execution are ***3.919 ms*** and ***4443.045 ms***, respectively.
 
 ```sh
 $ python in-memory_execute.py 
@@ -426,7 +426,7 @@ total weights load time : 3.919 ms
 total DNN execution time: 4443.045 ms
 ```
 
-Next, the no in-memory execution is performed by the following Python script (i.e., *baseline_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time of the 30 DNN execution are 1801.726 ms and 4559.881 ms, respectively.
+Next, the no in-memory execution is performed by the following Python script (i.e., *baseline_execute.py*) that executes 30 random DNNs and measures the DNN switching and execution time. The result show that the total DNN switching time and execution time of the 30 DNN execution are ***1801.726 ms*** and ***4559.881 ms***, respectively.
 ```sh
 python baseline_execute.py 
 [Executing] cifar10
@@ -460,6 +460,6 @@ total weights load time : 1801.726 ms
 total DNN execution time: 4559.881 ms
 ```
 
-It shows that in-memory execution accelerates the DNN switching time by 459x (1801.726 ms vs. 3.919 ms).
+It shows that in-memory execution accelerates the DNN switching time by ***459x (1801.726 ms vs. 3.919 ms)***.
 
 We hope this will help you review this paper. Please contact multitaskdnn.mobisys2020@gmail.com if you have any questions!
