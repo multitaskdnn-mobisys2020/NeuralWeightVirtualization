@@ -360,7 +360,7 @@ Inference accuracy: 0.585900
 Inference accuracy: 0.849647
 ```
 
-The inference accuracy of each DNN can be checked with the following Python script.
+After the optimization is finished, the final inference accuracy of each DNN can be checked with the following Python script (*weight_virtualization.py*).
 ```sh
 $ python weight_virtualization.py -mode=e -vnn_name=mnist
 Extracting MNIST_data/train-images-idx3-ubyte.gz
