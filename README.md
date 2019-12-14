@@ -88,7 +88,7 @@ cifar10  gsc  gtsrb  mnist  svhn
 The number of weight parameters and memory usage of each DNN are shown in the below table, which is the same as in the paper.
 
 | DNN | Number of weights |
-| ------------- | ------------- |
+| :-------------: | :-------------: |
 | MNIST  | 45,706 |
 | Content Cell  | Content Cell  |
 
