@@ -317,3 +317,28 @@ toal_cost: 5.486162122021597
 455 pages allocated for 45490 weights
 total_network_cost: 114.62664997577667
 ```
+
+## 4) Weight virtualization Step 2: Weight-Page Optimization
+The next step of weight virtualization is the weight-page optimization, which combines the matched weight-pages into single virtual weight-pages and optimizes them for the DNN tasks. Here, we perform joint optimization in which all the DNN tasks are optimized together by executing a shell script (*joint_optimization.sh*).
+```sh
+$ ./joint_optimization.sh 
+ joint optimization
+get_matching_loss
+v_train
+Extracting MNIST_data/train-images-idx3-ubyte.gz
+Extracting MNIST_data/train-labels-idx1-ubyte.gz
+Extracting MNIST_data/t10k-images-idx3-ubyte.gz
+Extracting MNIST_data/t10k-labels-idx1-ubyte.gz
+step 0, training accuracy: 0.100000 original loss: 6.907214 matching loss: 7.037911
+step 0, Validation accuracy: 0.113500
+step 100, training accuracy: 0.390000 original loss: 6.157534 matching loss: 3.197577
+step 100, Validation accuracy: 0.484900
+get new weight for 0.4849
+step 200, training accuracy: 0.890000 original loss: 5.160514 matching loss: 1.595586
+step 200, Validation accuracy: 0.861600
+get new weight for 0.8616
+...
+...
+...
+
+```
