@@ -85,7 +85,7 @@ $ ls -d mnist gsc gtsrb cifar10 svhn
 cifar10  gsc  gtsrb  mnist  svhn
 ```
 
-The number of weight parameters and memory usage of each DNN model are shown in the below table, which is the same as in the paper. In short, a total of 268,692 weight parameters (1,046 KB) are virtualized into 66,475 weights (258 KB), achieving 4x of packing efficiency.
+The number of weight parameters and memory usage of each DNN model are shown in the below table, which is the same as in the paper. In short, a total of ***268,692 weight parameters (1,046 KB)*** are virtualized into ***66,475 weights (258 KB)***, achieving ***4x*** of packing efficiency.
 
 | DNN | Number of weights | Memory (KB) |
 | :-------------: | -------------: | -------------: |
