@@ -322,7 +322,7 @@ total_network_cost: 114.62664997577667
 The next step of weight virtualization is the weight-page optimization, which combines the matched weight-pages into single virtual weight-pages and optimizes them for the DNN tasks. Here, we perform joint optimization in which all the DNN tasks are optimized together by executing a shell script (*joint_optimization.sh*).
 ```sh
 $ ./joint_optimization.sh 
- joint optimization
+1-th joint optimization
 get_matching_loss
 v_train
 Extracting MNIST_data/train-images-idx3-ubyte.gz
@@ -340,5 +340,53 @@ get new weight for 0.8616
 ...
 ...
 ...
-
+step 1700, Validation accuracy: 0.839966
+step 1800, training accuracy: 0.890000 ce: 4.937591 sl: 0.009319
+step 1800, Validation accuracy: 0.840005
+step 1900, training accuracy: 0.880000 ce: 5.124782 sl: 0.009399
+step 1900, Validation accuracy: 0.846727
+get new weight for 0.84672713
+step 1999, training accuracy: 0.890000 ce: 4.990521 sl: 0.009340
+step 1999, Validation accuracy: 0.842732
+svhn/svhn_weight.npy
+Extracting MNIST_data/train-images-idx3-ubyte.gz
+Extracting MNIST_data/train-labels-idx1-ubyte.gz
+Extracting MNIST_data/t10k-images-idx3-ubyte.gz
+Extracting MNIST_data/t10k-labels-idx1-ubyte.gz
+Inference accuracy: 0.983100
+Inference accuracy: 0.745388
+Inference accuracy: 0.948931
+Inference accuracy: 0.585900
+Inference accuracy: 0.849647
 ```
+
+The inference accuracy of each DNN can be checked with the following Python script.
+```sh
+$ python weight_virtualization.py -mode=e -vnn_name=mnist
+Extracting MNIST_data/train-images-idx3-ubyte.gz
+Extracting MNIST_data/train-labels-idx1-ubyte.gz
+Extracting MNIST_data/t10k-images-idx3-ubyte.gz
+Extracting MNIST_data/t10k-labels-idx1-ubyte.gz
+Inference accuracy: 0.983100
+```
+```sh
+$ python weight_virtualization.py -mode=e -vnn_name=gsc
+Inference accuracy: 0.745388
+```
+```sh
+$ python weight_virtualization.py -mode=e -vnn_name=gtsrb
+Inference accuracy: 0.948931
+```
+```sh
+$ python weight_virtualization.py -mode=e -vnn_name=cifar10
+Inference accuracy: 0.585900
+```
+```sh
+python weight_virtualization.py -mode=e -vnn_name=svhn
+Inference accuracy: 0.849647
+```
+
+## 5) In-Memory Multitask Execution vs. No In-Memory Multitask Execution
+Once the weight virtualization is completed, the virtual weight-pages that will be shared between the DNNs are generated (*virtual_weight_page.npy*). Then, the virtual weight-pages are loaded into the GPU RAM, and the DNNs executed entirely in the GPU RAM, which enables fast and responsive execution of the DNNs.
+
+We compare the DNN switching (weight parameter loading) time and execution time of the in-memory multitask execution against the not virtualized baseline DNNs that perform the switching and execution by using the secondary storage module (e.g., HDD or SSD) as done in many state-of-the-art DNNs today.    
