@@ -97,7 +97,7 @@ The number of weight parameters and memory usage of each DNN are shown in the be
 | **Total** | **268,692** | **1,046** |
 | **Virtualized** | **66,475** | **258** |
 
-## 3) Weight virtualization Step 1: Weight-Page Matching
+## 3) Weight Virtualization Step 1: Weight-Page Matching
 The first step of weight virtualization is the weight-page matching, which is performed by a Python script (*weight_virtualization.py*). It first computes Fisher information of the DNN and then perform weight-page matching as described in the paper. Each DNN performs the weight-page matching one by one.
 
 Perform weight-page matching for the first DNN (MNIST) with the following Python script.
@@ -318,7 +318,7 @@ toal_cost: 5.486162122021597
 total_network_cost: 114.62664997577667
 ```
 
-## 4) Weight virtualization Step 2: Weight-Page Optimization
+## 4) Weight Virtualization Step 2: Weight-Page Optimization
 The next step of weight virtualization is the weight-page optimization, which combines the matched weight-pages into single virtual weight-pages and optimizes them for the DNN tasks. Here, we perform joint optimization in which all the DNN tasks are optimized together by executing a shell script (*joint_optimization.sh*).
 ```sh
 $ ./joint_optimization.sh 
