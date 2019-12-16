@@ -389,13 +389,13 @@ Inference accuracy: 0.849647
 The below table is the comparision of inference accuracy between the stand-alone DNNs (not virtualized) and the virtualized DNNs.
 
 | | Accuracy (%) | Accuracy (%) |
-| DNN | Not virtualized (individual) | Virtualized (packed)
 | :-------------: | -------------: | -------------: |
-| MNIST | 98.33 | ***98.31***
-| GSC | 69.86 | ***74.53***
-| GTSRB | 92.74 | ***94.89***
-| CIFAR-10 | 55.68 | ***58.59***
-| SVHN | 81.55 | ***84.96***
+| DNN | Not virtualized (individual) | Virtualized (packed) |
+| MNIST | 98.33 | ***98.31*** |
+| GSC | 69.86 | ***74.53*** |
+| GTSRB | 92.74 | ***94.89*** |
+| CIFAR-10 | 55.68 | ***58.59*** |
+| SVHN | 81.55 | ***84.96*** |
 
 ## 5) In-Memory Execution (ours) vs. No In-Memory Execution (previous)
 Once the weight virtualization is completed, the virtual weight-pages that will be shared between the DNNs are generated (*virtual_weight_page.npy*) and loaded into the GPU RAM. By using the virtual weight pages, the DNNs are executed entirely in the GPU RAM, which enables fast and responsive execution of the DNNs.
