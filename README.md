@@ -386,11 +386,11 @@ python weight_virtualization.py -mode=e -vnn_name=svhn
 Inference accuracy: 0.849647
 ```
 
-The below table is the comparison of inference accuracy between the stand-alone DNNs (not virtualized) and the packed (virtualized) DNNs.
+The below table is the comparison of inference accuracy between the non-virtualized (stand-alone) DNNs and the virtualized DNNs.
 
 | | Accuracy (%) | Accuracy (%) |
 | :-------------: | -------------: | -------------: |
-| DNN | Stand-alone (not virtualized) | Packed (virtualized) |
+| DNN | ***Non-Virtualized DNN*** | ***Virtualized DNN*** |
 | MNIST | 98.33 | ***98.31*** |
 | GSC | 69.86 | ***74.53*** |
 | GTSRB | 92.74 | ***94.89*** |
@@ -475,7 +475,7 @@ It shows that in-memory execution accelerates the DNN switching time by ***459x 
 
 | | DNN Switching Time (ms) | DNN Execution Time (ms)
 | :-------------: | -------------: | -------------: |
-| Stand-alone (not virtualized) | 1801.72 | 4559.881 |
-| Packed (virtualized) | ***3.919*** | ***4443.04*** |
+| No In-Memory Execution | 1801.72 | 4559.881 |
+| ***In-Memory Execution*** | ***3.919*** | ***4443.04*** |
 
 We hope this will help you review this paper. Please contact multitaskdnn.mobisys2020@gmail.com if you have any questions!
