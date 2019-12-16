@@ -387,7 +387,8 @@ Inference accuracy: 0.849647
 ```
 
 The below table is the comparision of inference accuracy between the stand-alone DNNs (not virtualized) and the virtualized DNNs.
-| | Accuracy (%)
+
+| | Accuracy (%) | Accuracy (%) |
 | DNN | Not virtualized (individual) | Virtualized (packed)
 | :-------------: | -------------: | -------------: |
 | MNIST | 98.33 | ***98.31***
