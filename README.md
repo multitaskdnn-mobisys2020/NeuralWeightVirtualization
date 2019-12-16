@@ -390,7 +390,7 @@ The below table is the comparison of inference accuracy between the non-virtuali
 
 | | Accuracy (%) | Accuracy (%) |
 | :-------------: | -------------: | -------------: |
-| DNN | ***Non-Virtualized DNN*** | ***Virtualized DNN*** |
+| DNN | Non-Virtualized DNN | ***Virtualized DNN*** |
 | MNIST | 98.33 | ***98.31*** |
 | GSC | 69.86 | ***74.53*** |
 | GTSRB | 92.74 | ***94.89*** |
@@ -468,7 +468,7 @@ weights load time : 41.281 ms
 DNN execution time: 54.813 ms
 Inference accuracy: 0.694684
 total weights load time : 1801.726 ms
-total DNN execution time: 4459.881 ms
+total DNN execution time: 4559.881 ms
 ```
 
 It shows that in-memory execution accelerates the DNN switching time by ***459x (1801.726 ms vs. 3.919 ms)***.
